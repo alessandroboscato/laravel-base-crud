@@ -36,7 +36,20 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $book = new Book;
+        $book->title = $data['title'];
+        $book->author = $data['author'];
+        $book->pages = $data['pages'];
+        $book->edition = $data['edition'];
+        $book->year = $data['year'];
+        $book->isbn = $data['isbn'];
+        $book->image = $data['image'];
+        $book->pages = $data['pages'];
+        $book->genre = $data['genre'];
+        $book->save();
+        dd($book);
+
     }
 
     /**

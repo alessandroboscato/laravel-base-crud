@@ -32,7 +32,7 @@
     </div>
     <div class="div">
       <label for="year">Anno di pubblicazione</label>
-      <input type="text" name="year" id="year">
+      <input type="date" name="year" id="year">
     </div>
     <div class="div">
       <label for="isbn">ISBN</label>
