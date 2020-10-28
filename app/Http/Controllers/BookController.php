@@ -37,7 +37,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-
+      $data = $request->all();
         // VALIDAZIONE
         $request->validate([
           'title' => "required|max:30",
@@ -47,13 +47,9 @@ class BookController extends Controller
           'year' => "required|date",
           'genre' => "required|max:30",
           'image' => "required",
-          'isbn' => [
-            "required",
-            Rule::unique('books')->ignore('id')
-          ]
+          'isbn' => "required|unique:books|max:13"
         ]);
 
-        $data = $request->all();
         $book = new Book;
         $book->title = $data['title'];
         $book->author = $data['author'];
@@ -92,7 +88,8 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $book = Book::find($id);
+        return view('edit', compact("book"));
     }
 
     /**
@@ -104,7 +101,35 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $data = $request->all();
+
+      $request->validate([
+        'title' => "required|max:30",
+        'author' => "required|max:50",
+        'pages' => "required|integer",
+        'edition' => "required|max:50",
+        'year' => "required|date",
+        'genre' => "required|max:30",
+        'image' => "required",
+        'isbn' => [
+          "required",
+          Rule::unique('books')->ignore($id)
+        ]
+      ]);
+
+      $book = Book::find($id);
+
+        $book->title = $data['title'];
+        $book->author = $data['author'];
+        $book->pages = $data['pages'];
+        $book->edition = $data['edition'];
+        $book->year = $data['year'];
+        $book->isbn = $data['isbn'];
+        $book->genre = $data['genre'];
+        $book->image = $data['image'];
+
+        $book->update();
+        return redirect()->route("books.show", $book);
     }
 
     /**
@@ -115,6 +140,9 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $book = Book::find($id);
+        $book->delete();
+
+        return redirect()->route("books.index");
     }
 }
