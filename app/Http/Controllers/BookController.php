@@ -45,8 +45,10 @@ class BookController extends Controller
           'edition' => "required|max:50",
           'year' => "required|date",
           'genre' => "required|max:30",
-          'image' => "required"
+          'image' => "required",
+
         ]);
+
         $data = $request->all();
         $book = new Book;
         $book->title = $data['title'];
@@ -59,8 +61,8 @@ class BookController extends Controller
         $book->pages = $data['pages'];
         $book->genre = $data['genre'];
         $book->save();
-        dd($book);
 
+        return redirect()->route('books.show', $book);
     }
 
     /**
