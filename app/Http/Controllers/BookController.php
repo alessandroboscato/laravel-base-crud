@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Book;
+use Illuminate\Validation\Rule;
 
 class BookController extends Controller
 {
@@ -46,7 +47,10 @@ class BookController extends Controller
           'year' => "required|date",
           'genre' => "required|max:30",
           'image' => "required",
-
+          'isbn' => [
+            "required",
+            Rule::unique('books')->ignore('id')
+          ]
         ]);
 
         $data = $request->all();
