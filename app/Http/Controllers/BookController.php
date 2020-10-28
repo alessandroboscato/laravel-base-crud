@@ -36,6 +36,17 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+
+        // VALIDAZIONE
+        $request->validate([
+          'title' => "required|max:30",
+          'author' => "required|max:50",
+          'pages' => "required|integer",
+          'edition' => "required|max:50",
+          'year' => "required|date",
+          'genre' => "required|max:30",
+          'image' => "required"
+        ]);
         $data = $request->all();
         $book = new Book;
         $book->title = $data['title'];
@@ -63,7 +74,7 @@ class BookController extends Controller
         $book = Book::find($id);
         // $book = Book::where('id', $id)->get();
         // dd($book);
-        
+
         return view('show', compact("book"));
     }
 
